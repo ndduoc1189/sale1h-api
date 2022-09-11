@@ -1,13 +1,24 @@
-'use strict'
-const axios = require('axios').default
+const httpGet = require('../utility/httpRequest.js').httpGet;
+const cf = require('../config/api-url');
 
 async  function shoppeGetSearchHint(req){
-    var url = 'https://shopee.vn/api/v4/search/search_items?by=relevancy&keyword='+req.query.key+'&limit=20&newest=20&order=desc&page_type=search&scenario=PAGE_GLOBAL_SEARCH&version=2';
-    var uriDecode = encodeURI(url);
-    var res = await axios.get(uriDecode);
-    return res.data.items.map( p =>({
+  try {
+    var data = await httpGet(
+      cf.apiShopeeProduct,{params:{
+        "by":"relevancy",
+        "keyword":req.query.key,
+        "limit":"20",
+        "newest":"0",
+        "order":"desc",
+        "page_type":"search",
+        "scenario":"PAGE_GLOBAL_SEARCH",
+        "version":"2"
+      }}
+    );
+    return data.items.map( p =>({
       itemid: p.item_basic.itemid,
       source_type: 'shoppe',
+      shopid : p.shopid,
       name: p.item_basic.name, 
       image: p.item_basic.image,
       price: p.item_basic.price,
@@ -16,6 +27,10 @@ async  function shoppeGetSearchHint(req){
       shop_location: p.item_basic.shop_location
 
     }))
+  } catch (error) {
+    console.log(error);
+  }
+    
 }
 
 module.exports = {
