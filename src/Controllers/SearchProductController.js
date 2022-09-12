@@ -4,15 +4,13 @@ const cf = require('../config/api-url');
 async  function shoppeGetSearchHint(req){
   try {
     var data = await httpGet(
-      cf.apiShopeeProduct,{params:{
+      cf.apiShopeeProduct,
+      {params:{
         "by":"relevancy",
         "keyword":req.query.key,
         "limit":"20",
         "newest":"0",
-        "order":"desc",
-        "page_type":"search",
-        "scenario":"PAGE_GLOBAL_SEARCH",
-        "version":"2"
+        "order":"desc"
       }}
     );
     return data.items.map( p =>({
