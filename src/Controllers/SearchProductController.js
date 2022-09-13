@@ -6,7 +6,7 @@ async  function shoppeGetSearchHint(req){
     var data = await httpGet(
       cf.apiShopeeProduct,
       {params:{
-        "by":"relevancy",
+        "by":req.query.by,
         "keyword":req.query.key,
         "limit":"20",
         "newest":"0",

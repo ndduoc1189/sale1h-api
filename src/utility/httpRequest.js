@@ -1,7 +1,7 @@
 const axios = require('axios').default;
 
 const httpRequest = axios.create({
-  timeout: 5000
+  timeout: 8000
 
 });
 
