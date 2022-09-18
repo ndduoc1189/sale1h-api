@@ -1,8 +1,9 @@
-'use strict';
-module.exports = function(app) {
-  let homeCtrl = require('./Controllers/HomeController');
-  let searchHintCtrl = require('./Controllers/SearchHintController');
-  let searchProductCtrl = require('./Controllers/SearchProductController');
+import homeCtrl from './Controllers/HomeController.js';
+import searchHintCtrl from './Controllers/SearchHintController.js';
+import searchProductCtrl from'./Controllers/SearchProductController.js';
+
+export default function(app) {
+
   app.route('/')
     .get(homeCtrl.get);
 

@@ -1,5 +1,6 @@
 'use strict'
-const axios = require('axios').default
+import axios from 'axios';
+
 async  function shoppeGetSearchHint(req){
     var url = 'https://shopee.vn/api/v4/search/search_hint?keyword='+req.query.key+'&search_type=0&version=1';
     var uriDecode = encodeURI(url);
@@ -14,11 +15,13 @@ function asyncWrapper(fn) {
     }
   }
 
-module.exports = {
+const SearchHintController = {
     get: async (req, res) => {
         res.setHeader('Access-Control-Allow-Origin', '*');
         const ret = await shoppeGetSearchHint(req);
         res.json(ret);
       }
 }
+
+export default SearchHintController
 

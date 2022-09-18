@@ -1,41 +1,23 @@
-const httpGet = require('../utility/httpRequest.js').httpGet;
-const cf = require('../config/api-url');
+import config from "../config/index.js";
+import productServices  from '../services/productServices.js';
 
-async  function shoppeGetSearchHint(req){
-  try {
-    var data = await httpGet(
-      cf.apiShopeeProduct,
-      {params:{
-        "by":req.query.by,
-        "keyword":req.query.key,
-        "limit":"20",
-        "newest":"0",
-        "order":"desc"
-      }}
-    );
-    return data.items.map( p =>({
-      itemid: p.item_basic.itemid,
-      source_type: 'shoppe',
-      shopid : p.shopid,
-      name: p.item_basic.name, 
-      image: p.item_basic.image,
-      price: p.item_basic.price,
-      price_min: p.item_basic.price_min,
-      price_max: p.item_basic.price_max,
-      shop_location: p.item_basic.shop_location
-
-    }))
-  } catch (error) {
-    console.log(error);
-  }
-    
-}
-
-module.exports = {
+const  SearchProductController ={
     get: async (req, res) => {
         res.setHeader('Access-Control-Allow-Origin', '*');
-        const ret = await shoppeGetSearchHint(req);
+        const params={
+          by: req.query.by,
+          key:req.query.key
+        }
+
+        let datas =[];
+        await Promise.all( config.productSources.map( async (item)=>{
+          const  data = await productServices[item+'Products'](params);
+          datas =[...datas,...data]
+        }))
+        
+        const ret = datas.sort(productServices.sortCompare);
         res.json(ret);
       }
 }
 
+export default SearchProductController

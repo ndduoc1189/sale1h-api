@@ -1,9 +1,8 @@
 'use strict'
-const axios = require('axios').default 
-
-module.exports = {
+const HomeController ={
     get: (req, res) => {
 
         res.json({message: 'Server running!'})
     }
 }
+export default HomeController;
