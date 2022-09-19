@@ -21,7 +21,7 @@ const productServices = {
     );
     return data.items.map((p, index) => ({
       itemid: p.item_basic.itemid,
-      source_type: 'shoppe',
+      source_type: 'shopee',
       shopid: p.shopid,
       name: p.item_basic.name,
       image: 'https://cf.shopee.vn/file/' + p.item_basic.image,
@@ -54,7 +54,7 @@ const productServices = {
       price: p.price,
       price_before_discount: p.original_price,
       historical_sold: p.quantity_sold ? p.quantity_sold.value : 0,
-      shop_location: '',
+      shop_location: 'Trong nước',
       rating_star: p.rating_average,
       sortId: index
     }));
