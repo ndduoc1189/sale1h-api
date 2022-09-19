@@ -10,11 +10,16 @@ const  SearchProductController ={
         }
 
         let datas =[];
+
+        // call API động theo thiết lập để lấy về dữ liệu. 
         await Promise.all( config.productSources.map( async (item)=>{
+          // call API đi lấy dữ liệu trả về 1 array json
           const  data = await productServices[item+'Products'](params);
+          // Ghép dữliệu vào 1 mảng chung
           datas =[...datas,...data]
         }))
         
+        //sắp xếp lại dữ liệu
         const ret = datas.sort(productServices.sortCompare);
         res.json(ret);
       }
