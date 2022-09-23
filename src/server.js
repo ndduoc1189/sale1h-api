@@ -4,6 +4,7 @@ import bodyParser from 'body-parser';
 import routes from './routes.js' //importing rout
 
 const app = express()
+const port = process.env.PORT || 8989;
 
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
@@ -17,4 +18,4 @@ routes(app)
 app.use(function(req, res) {
     res.status(404).send({url: req.originalUrl + ' not found'})
 })
-app.listen(8989)
+app.listen(port)
