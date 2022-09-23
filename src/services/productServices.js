@@ -1,5 +1,6 @@
 import httpGet from "../utility/httpRequest.js";
 import config from "../config/index.js";
+import { urlencoded } from "body-parser";
 /*
 params = { key, by
 */
@@ -30,6 +31,7 @@ const productServices = {
       historical_sold: p.item_basic.historical_sold,
       shop_location: p.item_basic.shop_location,
       rating_star: p.item_basic.item_rating.rating_star,
+      itemUrl: 'https://shopee.vn/'+urlencoded(p.item_basic.name)+'.'+p.shopid+'.'+p.item_basic.itemid,
       sortId: index,
     }));
   },
@@ -56,6 +58,7 @@ const productServices = {
       historical_sold: p.quantity_sold ? p.quantity_sold.value : 0,
       shop_location: 'Trong nước',
       rating_star: p.rating_average,
+      itemUrl: 'https://tiki.vn/'+urlencoded(p.name)+'-p'+p.id+'.html',
       sortId: index
     }));
   },
@@ -84,6 +87,7 @@ const productServices = {
       historical_sold: 0,
       shop_location: p.location,
       rating_star: p.ratingScore,
+      itemUrl:'https:'+p.itemUrl,
       sortId: index
     }));
   },
