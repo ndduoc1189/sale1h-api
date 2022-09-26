@@ -13,7 +13,6 @@ let cache = apicache.middleware
   
 //caching all routes for 5 minutes
 app.use(cache('15 minutes'))
-
 routes(app)
 app.use(function(req, res) {
     res.status(404).send({url: req.originalUrl + ' not found'})
