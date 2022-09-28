@@ -90,6 +90,41 @@ const productServices = {
       sortId: index
     }));
   },
+  //https://searchlist-api.sendo.vn/web/products?q=b%C3%A0n%20ph%C3%ADm%20c%C6%A1&platform=desktop2&page=1&size=60&sortType=rank&search_type=1&app_version=2.28.15
+  sendoProducts: async (params) => {
+    const data = await httpGet(
+      config.sendoProductAPI,
+      {
+        params: {
+          "q": params.key,
+          "platform":"desktop",
+          "size": params.limit || 20,
+          "page": params.page || 1,
+          "sortType":"rank",
+          "search_type":1
+        },
+        headers:{
+          'user_agent': "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36",
+          'origin': 'https://www.sendo.vn',
+          'referer':'https://www.sendo.vn/'
+        }
+      }
+    );
+    return data.data.map((p, index) => ({
+      itemid: p.id,
+      source_type: 'sendo',
+      shopid: p.shop ?  p.shop.id : 0,
+      name: p.name,
+      image: p.image,
+      price: p.sale_price_min,
+      price_before_discount: p.default_price_min,
+      historical_sold: p.sold,
+      shop_location: p.shop ?  p.shop.ware_house_region_name : 'Việt Nam',
+      rating_star: p.rated ?  p.rated.star : 5,
+      itemUrl:'https://www.sendo.vn/'+encodeURIComponent(p.name).replace('%20','+')+ '-'+p.id+'.html',
+      sortId: index
+    }));
+  },
   sortCompare: (a, b) => {
     if (a.sortId < b.sortId) {
       return -1;

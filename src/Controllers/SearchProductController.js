@@ -18,6 +18,7 @@ const  SearchProductController ={
             const  data = await productServices[item+'Products'](params);
             // Ghép dữliệu vào 1 mảng chung
             datas =[...datas,...data]
+            console.log(item +'-- ')
           }catch(err){
             console.log(err);
           }
