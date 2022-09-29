@@ -13,8 +13,8 @@ const productServices = {
         params: {
           "by": params.by,
           "keyword": params.key,
-          "limit": "20",
-          "newest": "0",
+          "limit": params.limit || 10,
+          "newest": ((params.page || 1)-1)*10,
           "order": "desc"
         }
       }
@@ -41,7 +41,7 @@ const productServices = {
       {
         params: {
           "q": params.key,
-          "limit": params.limit || 20,
+          "limit": params.limit || 10,
           "page": params.page || 1
         }
       }
@@ -63,6 +63,12 @@ const productServices = {
   },
   //https://www.lazada.vn/catalog/?_keyori=ss&ajax=true&from=input&isFirstRequest=true&page=1&q=laptop
   lazadaProducts: async (params) => {
+    //Lazada chỉ cho lấy 60 1 lần -> phải chia cho 6 page 1 lần
+
+
+
+    
+    
     const data = await httpGet(
       config.lazadaProductAPI,
       {
@@ -70,12 +76,13 @@ const productServices = {
           "ajax": true,
           "from": "input",
           "q": params.key,
-          "limit": params.limit || 20,
+          "limit": params.limit || 10,
           "page": params.page || 1
         }
       }
     );
-    return data.mods.listItems.map((p, index) => ({
+
+    return data.mods.listItems.slice(0, 10).map((p, index) => ({
       itemid: p.itemId,
       source_type: 'lazada',
       shopid: p.sellerId,
@@ -98,13 +105,13 @@ const productServices = {
         params: {
           "q": params.key,
           "platform":"desktop",
-          "size": params.limit || 20,
+          "size": params.limit || 10,
           "page": params.page || 1,
           "sortType":"rank",
           "search_type":1
         },
         headers:{
-          'user_agent': "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36",
+          ...config.requestHeader,
           'origin': 'https://www.sendo.vn',
           'referer':'https://www.sendo.vn/'
         }
