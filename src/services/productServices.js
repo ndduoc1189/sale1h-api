@@ -16,6 +16,11 @@ const productServices = {
           "limit": params.limit || 10,
           "newest": ((params.page || 1)-1)*10,
           "order": "desc"
+        },
+        headers:{
+          ...config.requestHeader,
+          'origin': 'https://shopee.vn/',
+          'referer':'https://shopee.vn/'
         }
       }
     );
@@ -43,6 +48,11 @@ const productServices = {
           "q": params.key,
           "limit": params.limit || 10,
           "page": params.page || 1
+        },
+        headers:{
+          ...config.requestHeader,
+          'origin': 'https://tiki.vn/',
+          'referer':'https://tiki.vn/'
         }
       }
     );
@@ -78,6 +88,11 @@ const productServices = {
           "q": params.key,
           "limit": params.limit || 10,
           "page": params.page || 1
+        },
+        headers:{
+          ...config.requestHeader,
+          'origin': 'https://www.lazada.vn/',
+          'referer':'https://www.lazada.vn/'
         }
       }
     );
